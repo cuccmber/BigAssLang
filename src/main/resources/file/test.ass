@@ -1,0 +1,24 @@
+FUNKK INT test-func1(FLOAT a)
+$
+INT b=12
+BOOL c=(INT)a
+IF a + c >= 123 || a == c
+$
+c=(2 + b) * 4
+c=0
+$
+ELSE IF a != -2
+$
+c=1
+$
+DROP c
+$
+
+
+
+FUNKK main()
+$
+[BOOL] bool-array={AYE,AYE,GTFO}
+[0]bool-array=GTFO
+FLOAT num = fun(test-func1(1.1))
+$
