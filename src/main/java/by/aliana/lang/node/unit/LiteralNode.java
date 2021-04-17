@@ -10,4 +10,11 @@ public class LiteralNode extends ASTNode implements ArithmeticUnitDefinitionArea
                                                     , ArrayElementValueDefinitionArea {
 
     public String literal;
+
+    @Override
+    public String toString() {
+        return "LiteralNode{" +
+                "literal='" + literal + '\'' +
+                '}';
+    }
 }

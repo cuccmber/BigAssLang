@@ -1,6 +1,5 @@
 package by.aliana.lang.node.expression;
 
-import by.aliana.lang.node.ASTNode;
 
 public class PlusMinusExpressionNode extends ExpressionNode {
 
@@ -8,5 +7,12 @@ public class PlusMinusExpressionNode extends ExpressionNode {
     public ExpressionNode leftExpressionNode;
     public ExpressionNode rightExpressionNode;
 
-
+    @Override
+    public String toString() {
+        return "PlusMinusExpressionNode{" +
+                "arithmeticOperator='" + arithmeticOperator + '\'' +
+                ", leftExpressionNode=" + leftExpressionNode +
+                ", rightExpressionNode=" + rightExpressionNode +
+                '}';
+    }
 }

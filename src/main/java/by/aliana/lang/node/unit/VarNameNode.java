@@ -10,4 +10,11 @@ public class VarNameNode extends ASTNode implements ArithmeticUnitDefinitionArea
                                                     , ArrayElementValueDefinitionArea {
 
     public String name;
+
+    @Override
+    public String toString() {
+        return "VarNameNode{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

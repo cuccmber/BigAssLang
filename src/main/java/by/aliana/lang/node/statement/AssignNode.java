@@ -6,4 +6,11 @@ import by.aliana.lang.node.assign.AssignmentDefinitionArea;
 public class AssignNode extends ASTNode implements StatementDefinitionArea {
 
     public AssignmentDefinitionArea definitionArea;
+
+    @Override
+    public String toString() {
+        return "AssignNode{" +
+                "definitionArea=" + definitionArea +
+                '}';
+    }
 }

@@ -9,4 +9,11 @@ import java.util.List;
 public class BodyContentNode extends ASTNode {
 
     public List<StatementNode> statementNodes = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "BodyContentNode{" +
+                "statementNodes=" + statementNodes +
+                '}';
+    }
 }

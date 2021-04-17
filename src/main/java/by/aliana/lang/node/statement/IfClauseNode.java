@@ -13,4 +13,13 @@ public class IfClauseNode extends ASTNode implements StatementDefinitionArea {
     public IfBlockNode ifBlockNode;
     public List<ElifBlockNode> elifBlockNodes = new ArrayList<>();
     public ElseBlockNode elseBlockNode;
+
+    @Override
+    public String toString() {
+        return "IfClauseNode{" +
+                "ifBlockNode=" + ifBlockNode +
+                ", elifBlockNodes=" + elifBlockNodes +
+                ", elseBlockNode=" + elseBlockNode +
+                '}';
+    }
 }

@@ -9,4 +9,12 @@ public class DeclarationAssignmentNode extends ASTNode implements AssignmentDefi
 
     public DeclareNode declareNode;
     public ExpressionNode expressionNode;
+
+    @Override
+    public String toString() {
+        return "DeclarationAssignmentNode{" +
+                "declareNode=" + declareNode +
+                ", expressionNode=" + expressionNode +
+                '}';
+    }
 }

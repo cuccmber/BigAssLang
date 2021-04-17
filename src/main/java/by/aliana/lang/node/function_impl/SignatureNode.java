@@ -10,4 +10,11 @@ public class SignatureNode extends ASTNode {
     public String varName;
     public List<AttributeNode> attributeNodes = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return "SignatureNode{" +
+                "varName='" + varName + '\'' +
+                ", attributeNodes=" + attributeNodes +
+                '}';
+    }
 }

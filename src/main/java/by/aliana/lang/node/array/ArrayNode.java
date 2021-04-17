@@ -10,4 +10,11 @@ public class ArrayNode extends ASTNode implements FuncCallAttributeDefinitionAre
                                                     , ArrayElementValueDefinitionArea{
 
     public List<ArrayElementValueNode> arrayElementNodes = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "ArrayNode{" +
+                "arrayElementNodes=" + arrayElementNodes +
+                '}';
+    }
 }

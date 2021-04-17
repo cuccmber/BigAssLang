@@ -9,4 +9,13 @@ public class VarCastNode extends ASTNode implements CastDefinitionArea {
     public VarNameNode varNameNode;
     public String type;
     public ExpressionNode expressionNode;
+
+    @Override
+    public String toString() {
+        return "VarCastNode{" +
+                "varNameNode=" + varNameNode +
+                ", type='" + type + '\'' +
+                ", expressionNode=" + expressionNode +
+                '}';
+    }
 }

@@ -32,6 +32,7 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
             FuncImplNode funcNode = visitFunc(funcContext);
             progNode.funcNodes.add(funcNode);
         }
+        System.out.println(progNode.toString());
         return progNode;
     }
 
@@ -44,7 +45,9 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
         } else {
             funcNode = new VoidFuncNode();
         }
+        if (ctx.genericType() != null) {
         funcNode.type = ctx.genericType().getText();
+        }
         funcNode.signatureNode = visitSignature(ctx.signature());
         funcNode.bodyContentNode = visitBodyContent(ctx.bodyContent());
         return funcNode;
@@ -63,7 +66,14 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
 
     @Override
     public AttributeNode visitAttribute(assParser.AttributeContext ctx) {
-        return new AttributeNode();
+        AttributeNode attributeNode = new AttributeNode();
+        if (ctx.declare() != null) {
+            for (assParser.DeclareContext declareContext : ctx.declare()) {
+                DeclareNode declareNode = visitDeclare(declareContext);
+                attributeNode.declareNodes.add(declareNode);
+            }
+        }
+        return attributeNode;
     }
 
     @Override
@@ -96,7 +106,7 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
         if (ctx.funcCall() != null) {
             statementNode.definitionArea = visitFuncCall(ctx.funcCall());
         }
-        return new StatementNode();
+        return statementNode;
     }
 
     @Override
@@ -110,7 +120,6 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
     public ExpressionNode visitLogicExpressionWithBrackets(assParser.LogicExpressionWithBracketsContext ctx) {
         var logicExpressionWithBracketsNode = new LogicExpressionWithBracketsNode();
         logicExpressionWithBracketsNode.expressionNode = (ExpressionNode) ctx.expression().accept(this);
-        System.out.println("bracket");
         return logicExpressionWithBracketsNode;
     }
 
@@ -118,7 +127,6 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
     public ExpressionNode visitUnaryMinusExpression(assParser.UnaryMinusExpressionContext ctx) {
         var unaryMinusExpression = new UnaryMinusExpressionNode();
         unaryMinusExpression.unitNode = this.visitUnaryMinusUnit(ctx.unaryMinusUnit());
-        System.out.println("minus");
         return unaryMinusExpression;
     }
 
@@ -145,8 +153,6 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
         plusMinusExpressionNode.arithmeticOperator = ctx.getText();
         plusMinusExpressionNode.leftExpressionNode = (ExpressionNode) ctx.expression(LEFT).accept(this);
         plusMinusExpressionNode.rightExpressionNode = (ExpressionNode) ctx.expression(RIGHT).accept(this);
-        System.out.println("plus");
-
         return plusMinusExpressionNode;
     }
 
@@ -164,7 +170,6 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
         var andLogicExpressionNode = new AndLogicExpressionNode();
         andLogicExpressionNode.leftExpressionNode = (ExpressionNode) ctx.expression(LEFT).accept(this);
         andLogicExpressionNode.rightExpressionNode = (ExpressionNode) ctx.expression(RIGHT).accept(this);
-        System.out.println("and");
         return andLogicExpressionNode;
     }
 
@@ -173,7 +178,6 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
         var orLogicExpressionNode = new OrLogicExpressionNode();
         orLogicExpressionNode.leftExpressionNode = (ExpressionNode) ctx.expression(LEFT).accept(this);
         orLogicExpressionNode.rightExpressionNode = (ExpressionNode) ctx.expression(RIGHT).accept(this);
-        System.out.println("or");
         return orLogicExpressionNode;
     }
 
@@ -181,7 +185,6 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
     public ExpressionNode visitArithmeticExpression(assParser.ArithmeticExpressionContext ctx) {
         var arithmeticExpressionNode = new ArithmeticExpressionNode();
         arithmeticExpressionNode.unitNode = this.visitArithmeticUnit(ctx.arithmeticUnit());
-        System.out.println("arithmetic");
         return arithmeticExpressionNode;
     }
 
@@ -200,7 +203,6 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
         if (ctx.funcCall() != null) {
             arithmeticUnit.definitionArea = visitFuncCall(ctx.funcCall());
         }
-
         return arithmeticUnit;
     }
 
@@ -216,7 +218,6 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
         if (ctx.getElement() != null) {
             unaryMinusUnitNode.definitionArea = visitGetElement(ctx.getElement());
         }
-
         return unaryMinusUnitNode;
     }
 
@@ -315,7 +316,9 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
     @Override
     public DeclareNode visitDeclare(assParser.DeclareContext ctx) {
         DeclareNode declareNode =  new DeclareNode();
-        declareNode.type = ctx.genericType().getText();
+        if (ctx.genericType() != null) {
+            declareNode.type = ctx.genericType().getText();
+        }
         declareNode.varNameNode = visitVarName(ctx.varName());
         return declareNode;
     }
@@ -341,7 +344,6 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
         if (ctx.arrayElementAssignmentToArray() != null) {
             assignNode.definitionArea = visitArrayElementAssignmentToArray(ctx.arrayElementAssignmentToArray());
         }
-
         return assignNode;
     }
 

@@ -8,4 +8,12 @@ public class VarAssignmentNode extends ASTNode implements AssignmentDefinitionAr
 
     public VarNameNode varNameNode;
     public ExpressionNode expressionNode;
+
+    @Override
+    public String toString() {
+        return "VarAssignmentNode{" +
+                "varNameNode=" + varNameNode +
+                ", expressionNode=" + expressionNode +
+                '}';
+    }
 }

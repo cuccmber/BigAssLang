@@ -6,4 +6,12 @@ public class ComparisonExpressionNode extends ExpressionNode {
     public ExpressionNode leftExpressionNode;
     public ExpressionNode rightExpressionNode;
 
+    @Override
+    public String toString() {
+        return "ComparisonExpressionNode{" +
+                "comparisonOperator='" + comparisonOperator + '\'' +
+                ", leftExpressionNode=" + leftExpressionNode +
+                ", rightExpressionNode=" + rightExpressionNode +
+                '}';
+    }
 }

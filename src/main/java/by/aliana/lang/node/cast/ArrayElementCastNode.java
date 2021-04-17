@@ -9,4 +9,13 @@ public class ArrayElementCastNode extends ASTNode implements CastDefinitionArea 
     public GetElementNode getElementNode;
     public String type;
     public ExpressionNode expressionNode;
+
+    @Override
+    public String toString() {
+        return "ArrayElementCastNode{" +
+                "getElementNode=" + getElementNode +
+                ", type='" + type + '\'' +
+                ", expressionNode=" + expressionNode +
+                '}';
+    }
 }

@@ -11,4 +11,12 @@ public class GetElementNode extends ASTNode implements ArithmeticUnitDefinitionA
                                                         , ArrayElementValueDefinitionArea {
     public VarNameNode varNameNode;
     public int index;
+
+    @Override
+    public String toString() {
+        return "GetElementNode{" +
+                "varNameNode=" + varNameNode +
+                ", index=" + index +
+                '}';
+    }
 }

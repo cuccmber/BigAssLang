@@ -9,4 +9,11 @@ import java.util.List;
 public class ProgNode extends ASTNode {
 
     public List<FuncImplNode> funcNodes = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "ProgNode{" +
+                "funcNodes=" + funcNodes +
+                '}';
+    }
 }

@@ -7,4 +7,12 @@ public class DeclareNode extends ASTNode implements StatementDefinitionArea {
 
     public String type;
     public VarNameNode varNameNode;
+
+    @Override
+    public String toString() {
+        return "DeclareNode{" +
+                "type='" + type + '\'' +
+                ", varNameNode=" + varNameNode +
+                '}';
+    }
 }

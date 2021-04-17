@@ -16,4 +16,12 @@ public class FuncCallNode extends ASTNode implements ArithmeticUnitDefinitionAre
 
     public VarNameNode varNameNode;
     public List<FuncCallAttributeNode> callAttributeNodes = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "FuncCallNode{" +
+                "varNameNode=" + varNameNode +
+                ", callAttributeNodes=" + callAttributeNodes +
+                '}';
+    }
 }
