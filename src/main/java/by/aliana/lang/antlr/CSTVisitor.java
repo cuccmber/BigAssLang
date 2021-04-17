@@ -3,13 +3,17 @@ package by.aliana.lang.antlr;
 import by.aliana.lang.node.ASTNode;
 import by.aliana.lang.node.array.ArrayElementValueNode;
 import by.aliana.lang.node.array.ArrayNode;
+import by.aliana.lang.node.assign.*;
 import by.aliana.lang.node.expression.*;
 import by.aliana.lang.node.function_call.FuncCallAttributeNode;
 import by.aliana.lang.node.function_impl.*;
 import by.aliana.lang.node.prog.ProgNode;
-import by.aliana.lang.node.statement.StatementNode;
+import by.aliana.lang.node.statement.*;
+import by.aliana.lang.node.statement.DeclareNode;
 import by.aliana.lang.node.unit.*;
 import by.aliana.lang.node.unit.FuncCallNode;
+
+import javax.xml.catalog.Catalog;
 
 
 public class CSTVisitor extends assBaseVisitor<ASTNode> {
@@ -73,7 +77,9 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
     @Override
     public StatementNode visitStatement(assParser.StatementContext ctx) {
         StatementNode statementNode = new StatementNode();
-
+        if (ctx.assign() != null) {
+            statementNode.definitionArea = visitAssign(ctx.assign());
+        }
         return new StatementNode();
     }
 
@@ -222,6 +228,8 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
     @Override
     public GetElementNode visitGetElement(assParser.GetElementContext ctx) {
         GetElementNode getElementNode = new GetElementNode();
+        getElementNode.index = Integer.parseInt(ctx.unsignedIntValue().getText());
+        getElementNode.varNameNode = visitVarName(ctx.varName());
         return getElementNode;
     }
 
@@ -260,6 +268,10 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
     @Override
     public ArrayNode visitArray(assParser.ArrayContext ctx) {
         ArrayNode arrayNode = new ArrayNode();
+        for (assParser.ArrayElementValueContext arrayElementValueContext : ctx.arrayElementValue()) {
+            ArrayElementValueNode arrayElementValueNode = visitArrayElementValue(arrayElementValueContext);
+            arrayNode.arrayElementNodes.add(arrayElementValueNode);
+        }
         return arrayNode;
     }
 
@@ -285,84 +297,86 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitType(assParser.TypeContext ctx) {
-        return new ASTNode();
+    public DeclareNode visitDeclare(assParser.DeclareContext ctx) {
+        DeclareNode declareNode =  new DeclareNode();
+        declareNode.type = ctx.genericType().getText();
+        declareNode.varNameNode = visitVarName(ctx.varName());
+        return declareNode;
     }
 
     @Override
-    public ASTNode visitArrayType(assParser.ArrayTypeContext ctx) {
-        return super.visitArrayType(ctx);
+    public AssignNode visitAssign(assParser.AssignContext ctx) {
+        AssignNode assignNode =  new AssignNode();
+        if (ctx.varAssignment() != null) {
+            assignNode.definitionArea = visitVarAssignment(ctx.varAssignment());
+        }
+        if (ctx.declarationAssignment() != null) {
+            assignNode.definitionArea = visitDeclarationAssignment(ctx.declarationAssignment());
+        }
+        if (ctx.arrayElementAssignment() != null) {
+            assignNode.definitionArea = visitArrayElementAssignment(ctx.arrayElementAssignment());
+        }
+        if (ctx.varAssignmentToArray() != null) {
+            assignNode.definitionArea = visitVarAssignmentToArray(ctx.varAssignmentToArray());
+        }
+        if (ctx.declarationAssignmentToArray() != null) {
+            assignNode.definitionArea = visitDeclarationAssignmentToArray(ctx.declarationAssignmentToArray());
+        }
+        if (ctx.arrayElementAssignmentToArray() != null) {
+            assignNode.definitionArea = visitArrayElementAssignmentToArray(ctx.arrayElementAssignmentToArray());
+        }
+
+        return assignNode;
     }
 
     @Override
-    public ASTNode visitGenericType(assParser.GenericTypeContext ctx) {
-        return super.visitGenericType(ctx);
+    public VarAssignmentNode visitVarAssignment(assParser.VarAssignmentContext ctx) {
+        VarAssignmentNode varAssignmentNode = new VarAssignmentNode();
+        return varAssignmentNode;
     }
 
     @Override
-    public ASTNode visitIntValue(assParser.IntValueContext ctx) {
-        return super.visitIntValue(ctx);
+    public DeclarationAssignmentNode visitDeclarationAssignment(assParser.DeclarationAssignmentContext ctx) {
+        DeclarationAssignmentNode declarationAssignmentNode = new DeclarationAssignmentNode();
+        return declarationAssignmentNode;
     }
 
     @Override
-    public ASTNode visitUnsignedIntValue(assParser.UnsignedIntValueContext ctx) {
-        return super.visitUnsignedIntValue(ctx);
+    public ArrayElementAssignmentNode visitArrayElementAssignment(assParser.ArrayElementAssignmentContext ctx) {
+        ArrayElementAssignmentNode arrayElementAssignmentNode = new ArrayElementAssignmentNode();
+        return arrayElementAssignmentNode;
     }
 
     @Override
-    public ASTNode visitFloatValue(assParser.FloatValueContext ctx) {
-        return super.visitFloatValue(ctx);
+    public VarAssignmentToArrayNode visitVarAssignmentToArray(assParser.VarAssignmentToArrayContext ctx) {
+        VarAssignmentToArrayNode varAssignmentToArrayNode = new VarAssignmentToArrayNode();
+        return varAssignmentToArrayNode;
     }
 
     @Override
-    public ASTNode visitBoolValue(assParser.BoolValueContext ctx) {
-        return super.visitBoolValue(ctx);
+    public DeclarationAssignmentToArrayNode visitDeclarationAssignmentToArray(assParser.DeclarationAssignmentToArrayContext ctx) {
+        DeclarationAssignmentToArrayNode declarationAssignmentToArrayNode = new DeclarationAssignmentToArrayNode();
+        return declarationAssignmentToArrayNode;
     }
 
     @Override
-    public ASTNode visitDeclare(assParser.DeclareContext ctx) {
-        return super.visitDeclare(ctx);
+    public ArrayElementAssignmentToArrayNode visitArrayElementAssignmentToArray(assParser.ArrayElementAssignmentToArrayContext ctx) {
+        ArrayElementAssignmentToArrayNode arrayElementAssignmentToArrayNode = new ArrayElementAssignmentToArrayNode();
+        return arrayElementAssignmentToArrayNode;
     }
 
     @Override
-    public ASTNode visitVarAssignment(assParser.VarAssignmentContext ctx) {
-        return super.visitVarAssignment(ctx);
+    public CastNode visitCastExpression(assParser.CastExpressionContext ctx) {
+        CastNode castNode = new CastNode();
+        return castNode;
     }
 
     @Override
-    public ASTNode visitDeclarationAssignment(assParser.DeclarationAssignmentContext ctx) {
-        return super.visitDeclarationAssignment(ctx);
+    public IfClauseNode visitIfClause(assParser.IfClauseContext ctx) {
+        IfClauseNode ifClauseNode = new IfClauseNode();
+        return ifClauseNode;
     }
 
-    @Override
-    public ASTNode visitArrayElementAssignment(assParser.ArrayElementAssignmentContext ctx) {
-        return super.visitArrayElementAssignment(ctx);
-    }
-
-    @Override
-    public ASTNode visitVarAssignmentToArray(assParser.VarAssignmentToArrayContext ctx) {
-        return super.visitVarAssignmentToArray(ctx);
-    }
-
-    @Override
-    public ASTNode visitDeclarationAssignmentToArray(assParser.DeclarationAssignmentToArrayContext ctx) {
-        return super.visitDeclarationAssignmentToArray(ctx);
-    }
-
-    @Override
-    public ASTNode visitArrayElementAssignmentToArray(assParser.ArrayElementAssignmentToArrayContext ctx) {
-        return super.visitArrayElementAssignmentToArray(ctx);
-    }
-
-    @Override
-    public ASTNode visitAssign(assParser.AssignContext ctx) {
-        return super.visitAssign(ctx);
-    }
-
-    @Override
-    public ASTNode visitCastExpression(assParser.CastExpressionContext ctx) {
-        return super.visitCastExpression(ctx);
-    }
 
     @Override
     public ASTNode visitVarCast(assParser.VarCastContext ctx) {
@@ -397,10 +411,5 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitElseBlock(assParser.ElseBlockContext ctx) {
         return super.visitElseBlock(ctx);
-    }
-
-    @Override
-    public ASTNode visitIfClause(assParser.IfClauseContext ctx) {
-        return super.visitIfClause(ctx);
     }
 }
