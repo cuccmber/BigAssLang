@@ -1,11 +1,20 @@
 package by.aliana.lang.memory;
 
-import java.util.ArrayList;
-import java.util.List;
+import by.aliana.lang.node.statement.IfClauseNode;
+
 
 public class FunctionScope {
     public String name;
     public String type;
-    public List<String> variables = new ArrayList<>();
-    public List<IfClauseScope> nestedIfClauseScope = new ArrayList<>();
+    public IfClauseScope scope;
+
+    @Override
+    public String toString() {
+        return "FunctionScope{" +
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", scope=" + scope +
+                '}';
+    }
+
 }

@@ -9,7 +9,7 @@ public class IfClauseScope {
 
     @Override
     public String toString() {
-        return "Scope{" +
+        return "IfClauseScope{" +
                 "variables=" + variables +
                 ", nestedScope=" + nestedIfClauseScope +
                 '}';

@@ -23,19 +23,22 @@ public class ScopeConverter {
         ProgramScope programScope = new ProgramScope();
         for (FuncImplNode funcImplNode : tree.funcNodes) {
             FunctionScope functionScope = new FunctionScope();
-            programScope.functionScopes.add(createFunctionScope(funcImplNode.bodyContentNode));
+            programScope.functionScopes.add(createFunctionScope(funcImplNode));
         }
         System.out.println(programScope.toString());
         return programScope;
     }
 
-    public FunctionScope createFunctionScope(BodyContentNode bodyContentNode) {
+    public FunctionScope createFunctionScope(FuncImplNode funcImplNode) {
         FunctionScope functionScope = new FunctionScope();
-
-
+        String functionName = funcImplNode.signatureNode.varName;
+        String functionType = funcImplNode.type;
+        functionScope.name = functionName;
+        functionScope.type = functionType;
+        functionScope.scope = createIfClauseScope(funcImplNode.bodyContentNode);
         return functionScope;
-    }
 
+    }
 
     public IfClauseScope createIfClauseScope(BodyContentNode bodyContentNode) {
         IfClauseScope ifClauseScope = new IfClauseScope();
