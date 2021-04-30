@@ -35,7 +35,7 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
     }
 
     private Scope funcScope = new Scope();
-    private Scope ifScope = new Scope;
+    private Scope ifScope = new Scope();
     Map<String,String> declareScope = new HashMap<>();
     List<String> usageScope = new ArrayList<>();
     public static final int LEFT = 0;
