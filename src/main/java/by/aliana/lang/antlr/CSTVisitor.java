@@ -1,5 +1,7 @@
 package by.aliana.lang.antlr;
 
+import by.aliana.lang.error.ErrorHandler;
+import by.aliana.lang.exception.CustomException;
 import by.aliana.lang.node.ASTNode;
 import by.aliana.lang.node.array.ArrayElementValueNode;
 import by.aliana.lang.node.array.ArrayNode;
@@ -19,9 +21,23 @@ import by.aliana.lang.node.statement.DeclareNode;
 import by.aliana.lang.node.unit.*;
 import by.aliana.lang.node.unit.FuncCallNode;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 public class CSTVisitor extends assBaseVisitor<ASTNode> {
 
+    class Scope {
+        public List<Scope>  scopes;
+        public List<String> vars = new ArrayList<>();
+    }
+
+    private Scope funcScope = new Scope();
+    private Scope ifScope = new Scope;
+    Map<String,String> declareScope = new HashMap<>();
+    List<String> usageScope = new ArrayList<>();
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
 
@@ -38,6 +54,8 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
 
     @Override
     public FuncImplNode visitFunc(assParser.FuncContext ctx) {
+        funcScope = new Scope();
+        //scope clear
         FuncImplNode funcNode;
         if (ctx.drop() != null) {
             funcNode = new ReturnFuncNode();
@@ -50,6 +68,8 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
         }
         funcNode.signatureNode = visitSignature(ctx.signature());
         funcNode.bodyContentNode = visitBodyContent(ctx.bodyContent());
+        ErrorHandler.checkReturn(funcNode);
+//send to somefunc funcScope
         return funcNode;
     }
 
@@ -457,23 +477,29 @@ public class CSTVisitor extends assBaseVisitor<ASTNode> {
 
     @Override
     public IfBlockNode visitIfBlock(assParser.IfBlockContext ctx) {
+        ifScope = new Scope();
         IfBlockNode ifBlockNode = new IfBlockNode();
         ifBlockNode.expressionNode = (ExpressionNode) ctx.expression().accept(this);
         ifBlockNode.bodyContentNode = visitBodyContent(ctx.bodyContent());
+        funcScope.scopes.add(ifScope);
         return ifBlockNode;
     }
 
     @Override
     public ElifBlockNode visitElifBlock(assParser.ElifBlockContext ctx) {
+        ifScope = new Scope();
         ElifBlockNode elifBlockNode = new ElifBlockNode();
         elifBlockNode.ifBlockNode = visitIfBlock(ctx.ifBlock());
+        funcScope.scopes.add(ifScope);
         return elifBlockNode;
     }
 
     @Override
     public ElseBlockNode visitElseBlock(assParser.ElseBlockContext ctx) {
+        ifScope = new Scope();
         ElseBlockNode elseBlockNode = new ElseBlockNode();
         elseBlockNode.bodyContentNode = visitBodyContent(ctx.bodyContent());
+        funcScope.scopes.add(ifScope);
         return elseBlockNode;
     }
 }

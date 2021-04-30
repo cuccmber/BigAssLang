@@ -3,7 +3,8 @@ package by.aliana.lang.main;
 import by.aliana.lang.antlr.CSTVisitor;
 import by.aliana.lang.antlr.assLexer;
 import by.aliana.lang.antlr.assParser;
-import by.aliana.lang.memory.ScopeConverter;
+import by.aliana.lang.exception.CustomException;
+import by.aliana.lang.memory.ScopeBuilder;
 import by.aliana.lang.node.ASTNode;
 import by.aliana.lang.node.prog.ProgNode;
 import org.antlr.v4.runtime.CharStream;
@@ -17,7 +18,7 @@ import java.nio.file.Paths;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, CustomException {
 
         Path path = Paths.get("src/main/resources/data/test.ass");
         CharStream charStream = CharStreams.fromPath(path);
@@ -26,8 +27,8 @@ public class Main {
         ParseTree tree = parser.prog();
         CSTVisitor visitor = new CSTVisitor();
         ASTNode progNode = visitor.visit(tree);
-        ScopeConverter scopeConverter = new ScopeConverter((ProgNode) progNode);
-        scopeConverter.createProgScope();
+//        ScopeBuilder scopeConverter = new ScopeBuilder((ProgNode) progNode);
+//        scopeConverter.createProgScope();
 
     }
 }
