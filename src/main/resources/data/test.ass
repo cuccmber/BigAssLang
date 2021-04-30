@@ -1,0 +1,17 @@
+FUNKK INT a (INT b)
+$
+    INT a
+    IF (a == 1)
+    $
+    INT a
+    $
+    d = 123
+    BOOL f
+    DROP a || (zz && v)
+$
+FUNKK abs (INT a)
+$
+    INT d
+    FLOAT bvb = (INT)s
+    INT z
+$
